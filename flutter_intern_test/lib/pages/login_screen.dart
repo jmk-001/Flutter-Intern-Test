@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'home_page.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -17,8 +18,14 @@ class LoginScreenState extends State<LoginScreen> {
       String username = _usernameController.text;
       String password = _passwordController.text;
 
-      print("username: " + username);
-      print("password: " + password);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Welcome, $username')),
+      );
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
     }
   }
 
