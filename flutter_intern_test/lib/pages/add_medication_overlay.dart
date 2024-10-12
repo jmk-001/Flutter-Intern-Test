@@ -175,6 +175,15 @@ class AddMedicationOverlay extends StatelessWidget {
           hour: _hourPickerValue.value, minute: _minutePickerValue.value);
       double dosage = double.parse(_dosageTextController.text);
 
+      for (PrescriptionMedication med in manager.meds) {
+        if (med.id == id) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Medication ID already exists')),
+          );
+          return;
+        }
+      }
+
       PrescriptionMedication newMedication;
 
       if (_isPrescribedValue.value) {
