@@ -22,7 +22,7 @@ class LoginScreenState extends State<LoginScreen> {
         SnackBar(content: Text('Welcome, $username')),
       );
 
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomePage()),
       );
