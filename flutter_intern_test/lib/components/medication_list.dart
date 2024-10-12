@@ -6,7 +6,7 @@ import '../models/medication.dart';
 
 class MedicationList extends StatelessWidget {
   MedicationManager manager;
-  MedicationList(this.manager);
+  MedicationList(this.manager, {super.key});
   @override
   Widget build(BuildContext context) {
     // Subscribe to the context created by MedicationManager
@@ -19,6 +19,9 @@ class MedicationList extends StatelessWidget {
             return GestureDetector(
               onTap: () {
                 _onItemTap(context, manager.meds[index]);
+              },
+              onLongPress: () {
+                _onItemLongPress(context, manager.meds[index]);
               },
               child: Card(
                 elevation: 5,
@@ -45,7 +48,7 @@ class MedicationList extends StatelessWidget {
                                 color: Colors.grey[600],
                               ),
                             ),
-                            SizedBox(height: 8.0),
+                            const SizedBox(height: 8.0),
                             // Name
                             Text(
                               manager.meds[index].name,
@@ -59,7 +62,7 @@ class MedicationList extends StatelessWidget {
                         ),
                       ),
                       // Dose and Time column
-                      Container(
+                      SizedBox(
                         width: 100,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +77,7 @@ class MedicationList extends StatelessWidget {
                                   color: Colors.blueGrey[700],
                                   size: 20,
                                 ),
-                                SizedBox(width: 4.0),
+                                const SizedBox(width: 4.0),
                                 Text(
                                   '${manager.meds[index].dose} mg',
                                   style: TextStyle(
@@ -84,7 +87,7 @@ class MedicationList extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 8.0),
+                            const SizedBox(height: 8.0),
                             // Time
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,9 +97,9 @@ class MedicationList extends StatelessWidget {
                                   color: Colors.blueGrey[700],
                                   size: 20,
                                 ),
-                                SizedBox(width: 4.0),
+                                const SizedBox(width: 4.0),
                                 Text(
-                                  '${manager.meds[index].time}',
+                                  '${manager.meds[index].time.hour.toString().padLeft(2, '0')}:${manager.meds[index].time.minute.toString().padLeft(2, '0')}',
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.blueGrey[700],
@@ -122,5 +125,32 @@ class MedicationList extends StatelessWidget {
     final overlayInstance = EditMedicationOverlay(manager,
         medication); // Pass the manager to overlay to call addMedication
     overlayInstance.showAddMedicationOverlay(context);
+  }
+
+  void _onItemLongPress(BuildContext context, Medication medication) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirm Deletion"),
+          content: const Text("Are you sure you want to delete the item?"),
+          actions: [
+            TextButton(
+              child: const Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text("Delete"),
+              onPressed: () {
+                manager.removeMedication(medication.id);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

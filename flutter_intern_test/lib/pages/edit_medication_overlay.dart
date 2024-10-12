@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_intern_test/models/medication.dart';
 import 'package:flutter_intern_test/models/medication_manager.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 class EditMedicationOverlay extends StatelessWidget {
   final MedicationManager manager;
   final Medication med;
-  EditMedicationOverlay(this.manager, this.med);
+  EditMedicationOverlay(this.manager, this.med, {super.key});
   final TextEditingController _idTextController = TextEditingController();
   final TextEditingController _nameTextController = TextEditingController();
   final TextEditingController _dosageTextController = TextEditingController();
   final TextEditingController _timeTextController = TextEditingController();
+
+  final ValueNotifier<int> _hourPickerValue = ValueNotifier<int>(0);
+  final ValueNotifier<int> _minutePickerValue = ValueNotifier<int>(0);
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +45,39 @@ class EditMedicationOverlay extends StatelessWidget {
           ),
           keyboardType: TextInputType.number,
         ),
-        TextFormField(
-          controller: _timeTextController,
-          decoration: const InputDecoration(
-            labelText: 'Dosage Time',
-          ),
-          keyboardType: TextInputType.number,
-        ),
+        const SizedBox(height: 20),
+        const Text("Dosage time"),
+        Row(
+          children: [
+            ValueListenableBuilder<int>(
+              valueListenable: _hourPickerValue,
+              builder: (context, value, child) {
+                return NumberPicker(
+                  value: med.time.hour,
+                  minValue: 0,
+                  maxValue: 23,
+                  onChanged: (newValue) {
+                    _hourPickerValue.value = newValue;
+                  },
+                );
+              },
+            ),
+            const Text(":"),
+            ValueListenableBuilder<int>(
+              valueListenable: _minutePickerValue,
+              builder: (context, value, child) {
+                return NumberPicker(
+                  value: med.time.minute,
+                  minValue: 0,
+                  maxValue: 59,
+                  onChanged: (newValue) {
+                    _minutePickerValue.value = newValue;
+                  },
+                );
+              },
+            )
+          ],
+        )
       ],
     );
   }
@@ -57,17 +87,17 @@ class EditMedicationOverlay extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Edit Medication"),
+          title: const Text("Edit Medication"),
           content: this,
           actions: [
             TextButton(
-              child: Text("Save"),
+              child: const Text("Save"),
               onPressed: () {
                 onSaveClick(context);
               },
             ),
             TextButton(
-              child: Text("Close"),
+              child: const Text("Close"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -92,7 +122,8 @@ class EditMedicationOverlay extends StatelessWidget {
 
       int id = int.parse(_idTextController.text);
       String name = _nameTextController.text;
-      int time = int.parse(_timeTextController.text);
+      TimeOfDay time = TimeOfDay(
+          hour: _hourPickerValue.value, minute: _minutePickerValue.value);
       double dosage = double.parse(_dosageTextController.text);
 
       Medication newMedication = Medication(id, name, time, dosage);
