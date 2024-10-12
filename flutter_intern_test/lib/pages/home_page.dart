@@ -3,6 +3,8 @@ import 'home_screen.dart';
 import 'profile_screen.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   HomePageState createState() => HomePageState();
 }

@@ -5,6 +5,8 @@ import 'package:flutter_intern_test/pages/add_medication_overlay.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final manager = Provider.of<MedicationManager>(

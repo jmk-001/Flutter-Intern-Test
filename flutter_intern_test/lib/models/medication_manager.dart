@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
-import 'medication.dart';
+import 'package:flutter_intern_test/models/prescription_medication.dart';
 
 class MedicationManager with ChangeNotifier {
-  final List<Medication> _meds = [
-    Medication(1, "Xanax", const TimeOfDay(hour: 17, minute: 34), 3.5),
-    Medication(2, "Acetaminophen", const TimeOfDay(hour: 3, minute: 34), 600),
+  final List<PrescriptionMedication> _meds = [
+    PrescriptionMedication(
+        id: 1,
+        name: "Xanax",
+        time: const TimeOfDay(hour: 17, minute: 34),
+        dose: 3.5),
+    PrescriptionMedication(
+        id: 2,
+        name: "Acetaminophen",
+        time: const TimeOfDay(hour: 3, minute: 34),
+        dose: 600),
   ];
 
-  List<Medication> get meds => _meds;
+  List<PrescriptionMedication> get meds => _meds;
 
-  void addMedication(Medication medication) {
+  void addMedication(PrescriptionMedication medication) {
     _meds.add(medication);
     notifyListeners();
   }
@@ -19,7 +27,7 @@ class MedicationManager with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateMedication(Medication medication) {
+  void updateMedication(PrescriptionMedication medication) {
     final index = _meds.indexWhere((med) => med.id == medication.id);
     if (index != -1) {
       _meds[index] = medication;

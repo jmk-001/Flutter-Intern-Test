@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_intern_test/models/medication.dart';
+import 'package:flutter_intern_test/models/prescription_medication.dart';
 import 'package:flutter_intern_test/models/medication_manager.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class EditMedicationOverlay extends StatelessWidget {
   final MedicationManager manager;
-  final Medication med;
+  final PrescriptionMedication med;
   EditMedicationOverlay(this.manager, this.med, {super.key});
   final TextEditingController _idTextController = TextEditingController();
   final TextEditingController _nameTextController = TextEditingController();
@@ -126,7 +126,8 @@ class EditMedicationOverlay extends StatelessWidget {
           hour: _hourPickerValue.value, minute: _minutePickerValue.value);
       double dosage = double.parse(_dosageTextController.text);
 
-      Medication newMedication = Medication(id, name, time, dosage);
+      PrescriptionMedication newMedication =
+          PrescriptionMedication(id: id, name: name, time: time, dose: dosage);
 
       // Update the new medication through the imported reference to MedicationManager
       manager.updateMedication(newMedication);

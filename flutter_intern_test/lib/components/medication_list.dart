@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_intern_test/models/prescription_medication.dart';
 import 'package:flutter_intern_test/pages/edit_medication_overlay.dart';
 import 'package:provider/provider.dart';
 import '/models/medication_manager.dart';
-import '../models/medication.dart';
 
 class MedicationList extends StatelessWidget {
   MedicationManager manager;
@@ -50,14 +50,24 @@ class MedicationList extends StatelessWidget {
                             ),
                             const SizedBox(height: 8.0),
                             // Name
-                            Text(
-                              manager.meds[index].name,
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blueGrey[800],
-                              ),
-                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  "${manager.meds[index].name} ",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blueGrey[800],
+                                  ),
+                                ),
+                                // Use a conditional expression to add the icon if the doctor is not null
+                                if (manager.meds[index].doctor != null)
+                                  const Icon(
+                                    Icons.check_box,
+                                    color: Colors.green,
+                                  ),
+                              ],
+                            )
                           ],
                         ),
                       ),
@@ -121,13 +131,14 @@ class MedicationList extends StatelessWidget {
     );
   }
 
-  void _onItemTap(BuildContext context, Medication medication) {
+  void _onItemTap(BuildContext context, PrescriptionMedication medication) {
     final overlayInstance = EditMedicationOverlay(manager,
         medication); // Pass the manager to overlay to call addMedication
     overlayInstance.showAddMedicationOverlay(context);
   }
 
-  void _onItemLongPress(BuildContext context, Medication medication) {
+  void _onItemLongPress(
+      BuildContext context, PrescriptionMedication medication) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

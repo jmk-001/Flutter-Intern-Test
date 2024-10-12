@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_intern_test/models/doctor.dart';
 import 'package:flutter_intern_test/models/medication.dart';
 import 'package:flutter_intern_test/models/medication_manager.dart';
+import 'package:flutter_intern_test/models/prescription_medication.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class AddMedicationOverlay extends StatelessWidget {
@@ -10,16 +12,25 @@ class AddMedicationOverlay extends StatelessWidget {
   final TextEditingController _dosageTextController = TextEditingController();
   final TextEditingController _timeTextController = TextEditingController();
 
+  final TextEditingController _doctorIdTextController = TextEditingController();
+  final TextEditingController _doctorNameTextController =
+      TextEditingController();
+  final TextEditingController _doctorPhoneTextController =
+      TextEditingController();
+
   // A new constructor to accept MedicationManager
   AddMedicationOverlay(this.manager);
   final ValueNotifier<int> _hourPickerValue = ValueNotifier<int>(0);
   final ValueNotifier<int> _minutePickerValue = ValueNotifier<int>(0);
+  final ValueNotifier<bool> _isPrescribedValue = ValueNotifier<bool>(false);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return SingleChildScrollView(
+        child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
+        // TextFormFields: ID, Name, Dosage
         TextFormField(
           controller: _idTextController,
           decoration: const InputDecoration(
@@ -41,7 +52,8 @@ class AddMedicationOverlay extends StatelessWidget {
           keyboardType: TextInputType.number,
         ),
         const SizedBox(height: 20),
-        const Text("Dosage time"),
+        // NumberPicker: Dosage
+        const Row(children: [Text("Dosage time")]),
         Row(
           children: [
             ValueListenableBuilder<int>(
@@ -72,9 +84,53 @@ class AddMedicationOverlay extends StatelessWidget {
               },
             )
           ],
-        )
+        ),
+        // Is the medication prescribed?
+        Row(children: [
+          const Text("Prescribed"),
+          ValueListenableBuilder<bool>(
+            valueListenable: _isPrescribedValue,
+            builder: (context, value, child) {
+              return Checkbox(
+                value: value,
+                onChanged: (newValue) {
+                  _isPrescribedValue.value = !_isPrescribedValue.value;
+                },
+              );
+            },
+          )
+        ]),
+        ValueListenableBuilder<bool>(
+          valueListenable: _isPrescribedValue,
+          builder: (context, isPrescribed, child) {
+            if (isPrescribed) {
+              return Column(children: [
+                TextFormField(
+                  controller: _doctorIdTextController,
+                  decoration: const InputDecoration(
+                    labelText: 'Doctor ID',
+                  ),
+                ),
+                TextFormField(
+                  controller: _doctorNameTextController,
+                  decoration: const InputDecoration(
+                    labelText: 'Doctor Name',
+                  ),
+                ),
+                TextFormField(
+                  controller: _doctorPhoneTextController,
+                  decoration: const InputDecoration(
+                    labelText: 'Phone Number',
+                  ),
+                )
+              ]);
+            } else {
+              return Container();
+            }
+          },
+        ),
       ],
-    );
+    ));
   }
 
   void showAddMedicationOverlay(BuildContext context) {
@@ -83,7 +139,7 @@ class AddMedicationOverlay extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text("Add New Medication"),
-          content: this,
+          content: SizedBox(width: 500, child: this),
           actions: [
             TextButton(
               child: const Text("Save"),
@@ -105,10 +161,10 @@ class AddMedicationOverlay extends StatelessWidget {
 
   void onSaveClick(BuildContext context) {
     try {
+      // Input validation for basic med info (null prevention)
       if (_idTextController.text.isEmpty ||
           _nameTextController.text.isEmpty ||
-          _dosageTextController.text.isEmpty ||
-          _timeTextController.text.isEmpty) {
+          _dosageTextController.text.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Please fill in all fields.')),
         );
@@ -121,11 +177,34 @@ class AddMedicationOverlay extends StatelessWidget {
           hour: _hourPickerValue.value, minute: _minutePickerValue.value);
       double dosage = double.parse(_dosageTextController.text);
 
-      Medication newMedication = Medication(id, name, time, dosage);
+      PrescriptionMedication newMedication;
+
+      if (_isPrescribedValue.value) {
+        // Input validation for doctor (null prevention)
+        if (_doctorIdTextController.text.isEmpty ||
+            _doctorNameTextController.text.isEmpty ||
+            _doctorPhoneTextController.text.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Please fill in all doctor fields.')),
+          );
+          return;
+        }
+
+        int docId = int.parse(_doctorIdTextController.text);
+        String docName = _doctorNameTextController.text;
+        int docPhone = int.parse(_doctorPhoneTextController.text);
+
+        Doctor doctor = Doctor(docId, docName, docPhone);
+
+        newMedication = PrescriptionMedication(
+            id: id, name: name, time: time, dose: dosage, doctor: doctor);
+      } else {
+        newMedication = PrescriptionMedication(
+            id: id, name: name, time: time, dose: dosage);
+      }
 
       // Add the new medication through the imported reference to MedicationManager
       manager.addMedication(newMedication);
-
       Navigator.of(context).pop();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
