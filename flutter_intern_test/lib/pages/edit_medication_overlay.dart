@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_intern_test/models/medication.dart';
 import 'package:flutter_intern_test/models/medication_manager.dart';
 
-class AddMedicationOverlay extends StatelessWidget {
+class EditMedicationOverlay extends StatelessWidget {
   final MedicationManager manager;
+  final Medication med;
+  EditMedicationOverlay(this.manager, this.med);
   final TextEditingController _idTextController = TextEditingController();
   final TextEditingController _nameTextController = TextEditingController();
   final TextEditingController _dosageTextController = TextEditingController();
   final TextEditingController _timeTextController = TextEditingController();
 
-  // A new constructor to accept MedicationManager
-  AddMedicationOverlay(this.manager);
-
   @override
   Widget build(BuildContext context) {
+    _idTextController.text = med.id.toString();
+    _nameTextController.text = med.name;
+    _dosageTextController.text = med.dose.toString();
+    _timeTextController.text = med.time.toString();
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -23,6 +26,7 @@ class AddMedicationOverlay extends StatelessWidget {
             labelText: 'Medication ID',
           ),
           keyboardType: TextInputType.number,
+          readOnly: true,
         ),
         TextFormField(
           controller: _nameTextController,
@@ -53,7 +57,7 @@ class AddMedicationOverlay extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Add New Medication"),
+          title: Text("Edit Medication"),
           content: this,
           actions: [
             TextButton(
@@ -81,7 +85,7 @@ class AddMedicationOverlay extends StatelessWidget {
           _dosageTextController.text.isEmpty ||
           _timeTextController.text.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please fill in all fields.')),
+          const SnackBar(content: Text('Fields must not be empty')),
         );
         return;
       }
@@ -93,8 +97,8 @@ class AddMedicationOverlay extends StatelessWidget {
 
       Medication newMedication = Medication(id, name, time, dosage);
 
-      // Add the new medication through the imported reference to MedicationManager
-      manager.addMedication(newMedication);
+      // Update the new medication through the imported reference to MedicationManager
+      manager.updateMedication(newMedication);
 
       Navigator.of(context).pop();
     } catch (e) {

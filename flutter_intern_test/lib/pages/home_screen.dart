@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
         context); // Context provider for current meds
 
     return Scaffold(
-      body: MedicationList(),
+      body: MedicationList(manager),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           final overlayInstance = AddMedicationOverlay(
