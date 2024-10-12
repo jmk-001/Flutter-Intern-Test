@@ -7,5 +7,5 @@ class Doctor {
 
   int get id => _id;
   String get name => _name;
-  int get time => _phoneNumber;
+  int get phone => _phoneNumber;
 }

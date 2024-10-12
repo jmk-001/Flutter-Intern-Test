@@ -3,6 +3,7 @@ import 'package:flutter_intern_test/models/prescription_medication.dart';
 import 'package:flutter_intern_test/pages/edit_medication_overlay.dart';
 import 'package:provider/provider.dart';
 import '/models/medication_manager.dart';
+import 'package:info_widget/info_widget.dart';
 
 class MedicationList extends StatelessWidget {
   MedicationManager manager;
@@ -62,9 +63,14 @@ class MedicationList extends StatelessWidget {
                                 ),
                                 // Use a conditional expression to add the icon if the doctor is not null
                                 if (manager.meds[index].doctor != null)
-                                  const Icon(
-                                    Icons.check_box,
-                                    color: Colors.green,
+                                  InfoWidget(
+                                    infoText:
+                                        // Ensure to the compiler that manager.meds[index].doctor is always not null
+                                        "Prescribed by: ${manager.meds[index].doctor!.name}\nPhone: ${manager.meds[index].doctor!.phone}",
+                                    infoTextStyle: const TextStyle(
+                                        fontSize: 15, color: Colors.black),
+                                    iconData: Icons.check_box,
+                                    iconColor: Colors.green,
                                   ),
                               ],
                             )
@@ -163,5 +169,9 @@ class MedicationList extends StatelessWidget {
         );
       },
     );
+  }
+
+  void _onIconTap(BuildContext context, PrescriptionMedication medication) {
+    print("Icon tapped for medication: ${medication.name}");
   }
 }
