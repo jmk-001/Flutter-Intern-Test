@@ -8,19 +8,16 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  // Index of the selected item in the bottom navigation bar
   int _selectedIndex = 0;
 
-  // List of pages (screens) to navigate between
   final List<Widget> _pages = [
     HomeScreen(),
     ProfileScreen(),
   ];
 
-  // Function to handle navigation when an item is tapped
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index; // Update the selected index
+      _selectedIndex = index;
     });
   }
 
