@@ -46,6 +46,11 @@ class LoginScreenState extends State<LoginScreen> {
               // Username input field
               TextFormField(
                 controller: _usernameController,
+                validator: (v) {
+                  if (v == null || v.isEmpty) {
+                    return "Username must not be empty";
+                  }
+                },
                 decoration: const InputDecoration(
                   labelText: 'Username',
                 ),
@@ -54,6 +59,11 @@ class LoginScreenState extends State<LoginScreen> {
               // Password input field
               TextFormField(
                 controller: _passwordController,
+                validator: (v) {
+                  if (v == null || v.isEmpty) {
+                    return "Password must not be empty";
+                  }
+                },
                 decoration: const InputDecoration(
                   labelText: 'Password',
                 ),

@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'doctor.dart';
 import 'package:flutter_intern_test/models/prescription_medication.dart';
 
 class MedicationManager with ChangeNotifier {
   final List<PrescriptionMedication> _meds = [
     PrescriptionMedication(
-        id: 1,
-        name: "Xanax",
-        time: const TimeOfDay(hour: 17, minute: 34),
-        dose: 3.5),
+      id: 1,
+      name: "Benzodiazepine",
+      time: const TimeOfDay(hour: 18, minute: 30),
+      dose: 0.5,
+      doctor: Doctor(1, "Sarah Rodriguez", 01397892),
+    ),
     PrescriptionMedication(
         id: 2,
         name: "Acetaminophen",
-        time: const TimeOfDay(hour: 3, minute: 34),
-        dose: 600),
+        time: const TimeOfDay(hour: 15, minute: 45),
+        dose: 1000),
   ];
 
   List<PrescriptionMedication> get meds => _meds;

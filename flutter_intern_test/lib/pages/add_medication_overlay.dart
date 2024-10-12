@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_intern_test/models/doctor.dart';
-import 'package:flutter_intern_test/models/medication.dart';
 import 'package:flutter_intern_test/models/medication_manager.dart';
 import 'package:flutter_intern_test/models/prescription_medication.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -10,7 +9,6 @@ class AddMedicationOverlay extends StatelessWidget {
   final TextEditingController _idTextController = TextEditingController();
   final TextEditingController _nameTextController = TextEditingController();
   final TextEditingController _dosageTextController = TextEditingController();
-  final TextEditingController _timeTextController = TextEditingController();
 
   final TextEditingController _doctorIdTextController = TextEditingController();
   final TextEditingController _doctorNameTextController =

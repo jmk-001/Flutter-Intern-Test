@@ -79,7 +79,7 @@ class MedicationList extends StatelessWidget {
                       ),
                       // Dose and Time column
                       SizedBox(
-                        width: 100,
+                        width: 110,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
