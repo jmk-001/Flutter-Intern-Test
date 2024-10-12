@@ -12,7 +12,7 @@ class LoginScreenState extends State<LoginScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-  // Function for handling login
+  // Submit login form and move to HomePage
   void _login() {
     if (_formKey.currentState!.validate()) {
       String username = _usernameController.text;
@@ -33,7 +33,7 @@ class LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: const Text('Login'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -44,7 +44,7 @@ class LoginScreenState extends State<LoginScreen> {
               // Username input field
               TextFormField(
                 controller: _usernameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Username',
                 ),
               ),
@@ -52,7 +52,7 @@ class LoginScreenState extends State<LoginScreen> {
               // Password input field
               TextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Password',
                 ),
                 obscureText: true,
@@ -60,7 +60,7 @@ class LoginScreenState extends State<LoginScreen> {
 
               ElevatedButton(
                 onPressed: _login,
-                child: Text('Login'),
+                child: const Text('Login'),
               ),
             ],
           ),
