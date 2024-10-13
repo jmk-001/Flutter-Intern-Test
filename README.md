@@ -56,7 +56,7 @@ dose - does not exceed 10000mg. Any value greater or equal to 10000mg will overf
 
 Following dart-specific optimisations have been made using dart compiler's suggestions:
 
-**addition of key parameter**
+**Addition of key Parameter**
 
 Key parameter is included in every widgets to differentiate between instances of different widget.
 
