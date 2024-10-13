@@ -4,6 +4,9 @@ import 'package:flutter_intern_test/models/medication_manager.dart';
 import 'package:flutter_intern_test/models/prescription_medication.dart';
 import 'package:numberpicker/numberpicker.dart';
 
+/// This class provides components for adding a new medication.
+///
+/// Note that ticking the "Prescribed" checkbox returns input fields for doctor.
 class AddMedicationOverlay extends StatelessWidget {
   final MedicationManager manager;
   final TextEditingController _idTextController = TextEditingController();
@@ -17,7 +20,7 @@ class AddMedicationOverlay extends StatelessWidget {
       TextEditingController();
 
   // A new constructor to accept MedicationManager
-  AddMedicationOverlay(this.manager);
+  AddMedicationOverlay(this.manager, {super.key});
   final ValueNotifier<int> _hourPickerValue = ValueNotifier<int>(0);
   final ValueNotifier<int> _minutePickerValue = ValueNotifier<int>(0);
   final ValueNotifier<bool> _isPrescribedValue = ValueNotifier<bool>(false);
@@ -131,6 +134,7 @@ class AddMedicationOverlay extends StatelessWidget {
     ));
   }
 
+  // Opens a dialog containing widgets defined by this class
   void showAddMedicationOverlay(BuildContext context) {
     showDialog(
       context: context,
@@ -200,6 +204,15 @@ class AddMedicationOverlay extends StatelessWidget {
         int docId = int.parse(_doctorIdTextController.text);
         String docName = _doctorNameTextController.text;
         int docPhone = int.parse(_doctorPhoneTextController.text);
+
+        for (PrescriptionMedication med in manager.meds) {
+          if (med.doctor != null && med.doctor!.id == docId) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Doctor ID already exists')),
+            );
+            return;
+          }
+        }
 
         Doctor doctor = Doctor(docId, docName, docPhone);
 

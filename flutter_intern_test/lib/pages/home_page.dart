@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'home_screen.dart';
 import 'profile_screen.dart';
 
+/// This class holds all elements from AppBar until the bottom navigation bar
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -9,12 +10,13 @@ class HomePage extends StatefulWidget {
   HomePageState createState() => HomePageState();
 }
 
+/// This class reserves the current state (screen chosen)
 class HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    HomeScreen(),
-    ProfileScreen(),
+    const HomeScreen(),
+    const ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -26,6 +28,7 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // Back button removed, no text for minimalistic design
       appBar: AppBar(automaticallyImplyLeading: false),
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(

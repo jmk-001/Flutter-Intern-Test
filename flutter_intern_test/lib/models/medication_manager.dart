@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'doctor.dart';
 import 'package:flutter_intern_test/models/prescription_medication.dart';
 
+/// This class performs state management of a list of PrescriptionMedication using ChangeNotifier.
+///
+/// Provides methods to add, remove, and update an object of PrescriptionMedication.
 class MedicationManager with ChangeNotifier {
+  // List containing meds (rendered by medication_list.dart).
+  // Two example entries have been added for test purposes
+  // To be emptied before deployment
   final List<PrescriptionMedication> _meds = [
     PrescriptionMedication(
       id: 1,

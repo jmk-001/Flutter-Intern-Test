@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// This class represents a medication.
+///
+/// It stores medication's ID, name, the time it should  be taken, and the dosage amount.
 class Medication {
   final int _id;
   final String _name;

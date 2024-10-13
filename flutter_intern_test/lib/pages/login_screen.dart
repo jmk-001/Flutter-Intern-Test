@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 
+/// This class provides a Login screen that is used to validate the user identity.
+///
+/// As of now, only isEmpty validation is included.
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -20,13 +23,18 @@ class LoginScreenState extends State<LoginScreen> {
       String username = _usernameController.text;
       String password = _passwordController.text;
 
+      // -------------------------------
+      // FUTURE VALIDATION LOGIC HERE
+      // E.G. FETCH DB FOR USER IDENTITY
+      // -------------------------------
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Welcome, $username')),
       );
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomePage()),
+        MaterialPageRoute(builder: (context) => const HomePage()),
       );
     }
   }
@@ -50,6 +58,7 @@ class LoginScreenState extends State<LoginScreen> {
                   if (v == null || v.isEmpty) {
                     return "Username must not be empty";
                   }
+                  return null;
                 },
                 decoration: const InputDecoration(
                   labelText: 'Username',
@@ -63,17 +72,20 @@ class LoginScreenState extends State<LoginScreen> {
                   if (v == null || v.isEmpty) {
                     return "Password must not be empty";
                   }
+                  return null;
                 },
                 decoration: const InputDecoration(
                   labelText: 'Password',
                 ),
                 obscureText: true,
               ),
-
-              ElevatedButton(
-                onPressed: _login,
-                child: const Text('Login'),
-              ),
+              const SizedBox(height: 30),
+              Row(children: [
+                ElevatedButton(
+                  onPressed: _login,
+                  child: const Text('Login'),
+                )
+              ])
             ],
           ),
         ),

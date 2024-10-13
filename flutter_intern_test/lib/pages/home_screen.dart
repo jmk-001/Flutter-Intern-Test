@@ -4,6 +4,8 @@ import 'package:flutter_intern_test/models/medication_manager.dart';
 import 'package:flutter_intern_test/pages/add_medication_overlay.dart';
 import 'package:provider/provider.dart';
 
+/// This class provides elements within the HomeScreen.
+/// Elements include: ListView (list of meds) and FloatingActionButton (adding a new med).
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 

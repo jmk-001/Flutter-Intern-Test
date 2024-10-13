@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_intern_test/pages/login_screen.dart';
 
+/// This class provides a logout screen used to navigate out to the Login screen.
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 

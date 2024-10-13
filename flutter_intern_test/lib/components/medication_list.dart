@@ -5,6 +5,9 @@ import 'package:provider/provider.dart';
 import '/models/medication_manager.dart';
 import 'package:info_widget/info_widget.dart';
 
+/// This class provides a ListView of medications that is updated upon
+///
+/// changes made in the MedicationManager's _meds array.
 class MedicationList extends StatelessWidget {
   MedicationManager manager;
   MedicationList(this.manager, {super.key});
@@ -79,6 +82,8 @@ class MedicationList extends StatelessWidget {
                       ),
                       // Dose and Time column
                       SizedBox(
+                        // WARNING: DOSE >=10000 WILL MAKE THE TEXT BOX OVERFLOW
+                        // In the case where dose must exceed 10000mg, increase the width of the sizebox
                         width: 110,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,9 +174,5 @@ class MedicationList extends StatelessWidget {
         );
       },
     );
-  }
-
-  void _onIconTap(BuildContext context, PrescriptionMedication medication) {
-    print("Icon tapped for medication: ${medication.name}");
   }
 }

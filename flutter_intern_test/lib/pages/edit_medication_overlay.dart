@@ -3,6 +3,7 @@ import 'package:flutter_intern_test/models/prescription_medication.dart';
 import 'package:flutter_intern_test/models/medication_manager.dart';
 import 'package:numberpicker/numberpicker.dart';
 
+/// This class provides an overlay to edit a PrescriptionMedication element in an array.
 class EditMedicationOverlay extends StatelessWidget {
   final MedicationManager manager;
   final PrescriptionMedication med;
@@ -21,7 +22,8 @@ class EditMedicationOverlay extends StatelessWidget {
     _nameTextController.text = med.name;
     _dosageTextController.text = med.dose.toString();
     _timeTextController.text = med.time.toString();
-    return Column(
+    return SingleChildScrollView(
+        child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         TextFormField(
@@ -79,16 +81,17 @@ class EditMedicationOverlay extends StatelessWidget {
           ],
         )
       ],
-    );
+    ));
   }
 
+  // Opens a dialog containing widgets defined by this class
   void showAddMedicationOverlay(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text("Edit Medication"),
-          content: this,
+          content: SizedBox(width: 500, child: this),
           actions: [
             TextButton(
               child: const Text("Save"),

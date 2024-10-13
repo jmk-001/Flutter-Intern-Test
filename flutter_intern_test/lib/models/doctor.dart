@@ -1,3 +1,6 @@
+/// This class represents a Doctor.
+///
+/// It stores doctor's ID, name, and phone number.
 class Doctor {
   final int _id;
   final String _name;
